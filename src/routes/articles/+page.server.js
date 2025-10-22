@@ -11,7 +11,6 @@ export async function load() {
         const slug = path.split('/').pop()?.replace('.md', '');
 
         if (!module?.metadata) {
-          console.error('No metadata found for', path);
           return null;
         }
 
@@ -23,22 +22,8 @@ export async function load() {
       .filter(Boolean)
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-    return {
-      articles,
-      debug: {
-        pattern: '../../content/articles/*.md',
-        filesFound: Object.keys(modules).length,
-        paths: Object.keys(modules)
-      }
-    };
+    return { articles };
   } catch (error) {
-    console.error('Error loading articles:', error);
-    return {
-      articles: [],
-      debug: {
-        error: error instanceof Error ? error.message : String(error),
-        stack: error instanceof Error ? error.stack : undefined
-      }
-    };
+    return { articles: [] };
   }
 }

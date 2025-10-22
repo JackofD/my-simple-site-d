@@ -1,6 +1,26 @@
 <script>
     /** @type {import('./$types').PageData} */
     export let data;
+
+    import { onMount } from 'svelte';
+    import { writable } from 'svelte/store';
+
+    // Store for the loaded markdown component
+    const Content = writable(null);
+
+    onMount(async () => {
+        if (data.article?.slug) {
+            // Use import.meta.glob to find the correct markdown file
+            const modules = import.meta.glob('../../../content/articles/*.md');
+            const matchPath = Object.keys(modules).find(path =>
+                path.includes(`${data.article.slug}.md`)
+            );
+            if (matchPath) {
+                const mod = await modules[matchPath]();
+                Content.set(mod.default);
+            }
+        }
+    });
 </script>
 
 <div class="container">
@@ -31,6 +51,13 @@
                     <p class="description">{data.article.description}</p>
                 {/if}
             </header>
+            {#if $Content}
+                <div class="article-content">
+                    <svelte:component this={$Content} />
+                </div>
+            {:else}
+                <p>Loading content...</p>
+            {/if}
         </article>
     {:else}
         <p>Article not found. <a href="/articles">← Back to Articles</a></p>

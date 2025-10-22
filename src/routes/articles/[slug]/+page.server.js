@@ -1,12 +1,8 @@
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ params }) {
   try {
-    console.log('Loading article with slug:', params.slug);
-
     // Import all markdown files
     const modules = import.meta.glob('../../../content/articles/*.md', { eager: true });
-
-    console.log('Available module paths:', Object.keys(modules));
 
     // Find the module matching our slug
     const matchingPath = Object.keys(modules).find(path =>
@@ -14,30 +10,22 @@ export async function load({ params }) {
     );
 
     if (!matchingPath) {
-      console.error('No matching article found for slug:', params.slug);
       throw new Error(`Article "${params.slug}" not found`);
     }
-
-    console.log('Found matching path:', matchingPath);
 
     /** @type {any} */
     const module = modules[matchingPath];
 
-    console.log('Module structure:', {
-      hasMetadata: Boolean(module?.metadata),
-      hasDefault: Boolean(module?.default),
-      metadataKeys: module?.metadata ? Object.keys(module.metadata) : []
-    });
+    if (!module?.metadata) {
+      throw new Error(`No metadata found for article "${params.slug}"`);
+    }
 
-    // Return minimal data first to check structure
     return {
       article: {
         slug: params.slug,
-        title: module?.metadata?.title || 'Untitled',
-        date: module?.metadata?.date,
-        description: module?.metadata?.description,
-        // Temporarily omit content to test metadata
-        metadata: module?.metadata || {}
+        title: module.metadata.title,
+        date: module.metadata.date,
+        description: module.metadata.description
       }
     };
   } catch (error) {

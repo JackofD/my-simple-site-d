@@ -14,7 +14,7 @@ const config = {
 		mdsvex({
 			extensions: ['.md'],
 			layout: {
-				articles: './src/routes/articles/_article.svelte'
+				articles: process.cwd() + '/src/routes/articles/_article.svelte'
 			}
 		})
 	]
