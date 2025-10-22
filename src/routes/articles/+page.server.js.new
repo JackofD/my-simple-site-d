@@ -1,0 +1,24 @@
+/** @type {import('./$types').PageServerLoad} */
+export async function load() {
+  try {
+    const modules = import.meta.glob('../../content/articles/*.md', { eager: true });
+    console.log('Found modules:', Object.keys(modules));
+
+    return {
+      articles: [],
+      debug: {
+        pattern: '../../content/articles/*.md',
+        filesFound: Object.keys(modules).length,
+        paths: Object.keys(modules)
+      }
+    };
+  } catch (error) {
+    console.error('Error loading articles:', error);
+    return {
+      articles: [],
+      debug: {
+        error: error instanceof Error ? error.message : String(error)
+      }
+    };
+  }
+}
