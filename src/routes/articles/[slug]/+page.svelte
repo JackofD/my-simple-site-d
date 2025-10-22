@@ -17,7 +17,7 @@
             );
             if (matchPath) {
                 const mod = await modules[matchPath]();
-                Content.set(mod.default);
+                Content.set(mod && mod.default ? mod.default : null);
             }
         }
     });
@@ -51,10 +51,12 @@
                     <p class="description">{data.article.description}</p>
                 {/if}
             </header>
-            {#if $Content}
+            {#if typeof $Content === 'function'}
                 <div class="article-content">
                     <svelte:component this={$Content} />
                 </div>
+            {:else if $Content === null}
+                <p>Sorry, there was a problem rendering this article.</p>
             {:else}
                 <p>Loading content...</p>
             {/if}

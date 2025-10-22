@@ -6,19 +6,12 @@
 <h1>Articles</h1>
 
 <div class="articles-container">
-    {#if data?.debug?.error}
-    <div class="error">
-        <h2>Error loading articles:</h2>
-        <pre>{data.debug.error}</pre>
-        {#if data.debug.stack}
-            <details>
-                <summary>Stack trace</summary>
-                <pre>{data.debug.stack}</pre>
-            </details>
-        {/if}
-    </div>
-{:else}
-    {#if data.articles.length}
+    {#if !data.articles || !Array.isArray(data.articles)}
+        <div class="error">
+            <h2>Sorry, we couldn't load the articles.</h2>
+            <p>Please try again later. If the problem persists, contact the site administrator.</p>
+        </div>
+    {:else if data.articles.length}
         <div class="articles-list">
             {#each data.articles as article}
                 <article class="article-preview">
@@ -39,24 +32,6 @@
     {:else}
         <p>No articles found.</p>
     {/if}
-
-    <details class="debug-details">
-        <summary>Debug Information</summary>
-        <div class="debug-info">
-            <p>Pattern used: <code>{data.debug?.pattern || 'No pattern'}</code></p>
-            <p>Files found: {data.debug?.filesFound || 0}</p>
-            
-            {#if data.debug?.paths?.length}
-                <h3>Found paths:</h3>
-                <ul>
-                    {#each data.debug.paths as path}
-                        <li><code>{path}</code></li>
-                    {/each}
-                </ul>
-            {/if}
-        </div>
-    </details>
-{/if}
 </div>
 
 <style>
@@ -102,19 +77,6 @@
         line-height: 1.4;
     }
 
-    .debug-details {
-        margin-top: 3rem;
-        border-top: 1px solid #eee;
-        padding-top: 1rem;
-    }
-
-    .debug-info {
-        background: #f5f5f5;
-        padding: 1rem;
-        border-radius: 4px;
-        margin: 1rem 0;
-        font-size: 0.9rem;
-    }
 
     .error {
         background: #fff0f0;
@@ -123,11 +85,4 @@
         margin: 1rem 0;
     }
 
-    pre {
-        white-space: pre-wrap;
-        background: #fff;
-        padding: 0.5rem;
-        border-radius: 2px;
-        font-size: 0.9rem;
-    }
 </style>
