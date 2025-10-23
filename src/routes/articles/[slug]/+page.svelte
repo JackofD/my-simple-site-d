@@ -5,19 +5,29 @@
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
 
-    // Store for the loaded markdown component
+    /** @type {import('svelte/store').Writable<any>} */
     const Content = writable(null);
 
     onMount(async () => {
         if (data.article?.slug) {
-            // Use import.meta.glob to find the correct markdown file
-            const modules = import.meta.glob('../../../content/articles/*.md');
-            const matchPath = Object.keys(modules).find(path =>
-                path.includes(`${data.article.slug}.md`)
-            );
-            if (matchPath) {
-                const mod = await modules[matchPath]();
-                Content.set(mod && mod.default ? mod.default : null);
+            try {
+                // Use import.meta.glob to find the correct markdown file
+                const modules = import.meta.glob('../../../content/articles/*.md');
+                const matchPath = Object.keys(modules).find(path =>
+                    path.includes(`${data.article.slug}.md`)
+                );
+                if (matchPath) {
+                    /** @type {any} */
+                    const mod = await modules[matchPath]();
+                    if (mod?.default && typeof mod.default === 'function') {
+                        Content.set(mod.default);
+                    } else {
+                        Content.set(null);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading article content:', error);
+                Content.set(null);
             }
         }
     });
