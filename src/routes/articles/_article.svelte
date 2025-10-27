@@ -1,5 +1,9 @@
-<script>
+<script lang="ts">
     // This layout will be used for all markdown articles
+    interface $$Props {
+        title: string;
+        date: string;
+    }
 </script>
 
 <article class="article-container">
