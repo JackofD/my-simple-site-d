@@ -1,34 +1,59 @@
-<script>
-    /** @type {import('./$types').PageData} */
-    export let data;
-
+<script lang="ts">
+    import type { SvelteComponent } from 'svelte';
     import { onMount } from 'svelte';
-    import { writable } from 'svelte/store';
+    import { writable, type Writable } from 'svelte/store';
+    
+    interface ArticleData {
+        slug: string;
+        title: string;
+        date: string;
+        description: string;
+    }
 
-    /** @type {import('svelte/store').Writable<any>} */
-    const Content = writable(null);
+    interface ErrorResponse {
+        message: string;
+        stack?: string;
+    }
+
+    interface PageDataType {
+        article: ArticleData | null;
+        error?: ErrorResponse;
+    }
+
+    export let data: PageDataType;
+
+    interface MDSveXModule {
+        default: typeof SvelteComponent;
+        metadata: {
+            title: string;
+            date: string;
+            description: string;
+        };
+    }
+
+    const Content: Writable<typeof SvelteComponent | null> = writable(null);
 
     onMount(async () => {
-        if (data.article?.slug) {
-            try {
-                // Use import.meta.glob to find the correct markdown file
-                const modules = import.meta.glob('../../../content/articles/*.md');
-                const matchPath = Object.keys(modules).find(path =>
-                    path.includes(`${data.article.slug}.md`)
-                );
-                if (matchPath) {
-                    /** @type {any} */
-                    const mod = await modules[matchPath]();
-                    if (mod?.default && typeof mod.default === 'function') {
-                        Content.set(mod.default);
-                    } else {
-                        Content.set(null);
-                    }
+        const article = data.article;
+        if (!article) return;
+
+        try {
+            // Use import.meta.glob to find the correct markdown file
+            const modules = import.meta.glob<MDSveXModule>('../../../content/articles/*.md');
+            const matchPath = Object.keys(modules).find(path =>
+                path.includes(`${article.slug}.md`)
+            );
+            if (matchPath) {
+                const mod = await modules[matchPath]();
+                if (mod?.default && typeof mod.default === 'function') {
+                    Content.set(mod.default);
+                } else {
+                    Content.set(null);
                 }
-            } catch (error) {
-                console.error('Error loading article content:', error);
-                Content.set(null);
             }
+        } catch (error) {
+            console.error('Error loading article content:', error);
+            Content.set(null);
         }
     });
 </script>
