@@ -1,6 +1,5 @@
 <script>
     // This layout will be used for all markdown articles
-    import { page } from '$app/stores';
 </script>
 
 <article class="article-container">
