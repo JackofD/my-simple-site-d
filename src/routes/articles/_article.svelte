@@ -1,15 +1,14 @@
 <script lang="ts">
     // This layout will be used for all markdown articles
-    interface $$Props {
-        title: string;
-        date: string;
-    }
+    // Use exported props (Svelte 5 standard) instead of accessing $$props directly
+    export let title: string;
+    export let date: string;
 </script>
 
 <article class="article-container">
     <header class="article-header">
-        <h1>{$$props.title}</h1>
-        <time datetime={$$props.date}>{new Date($$props.date).toLocaleDateString()}</time>
+    <h1>{title}</h1>
+    <time datetime={date}>{new Date(date).toLocaleDateString()}</time>
     </header>
 
     <div class="article-content">
