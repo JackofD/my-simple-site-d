@@ -6,11 +6,6 @@
 </script>
 
 <article class="article-container">
-    <header class="article-header">
-    <h1>{title}</h1>
-    <time datetime={date}>{new Date(date).toLocaleDateString()}</time>
-    </header>
-
     <div class="article-content">
         <slot />
     </div>
@@ -20,7 +15,6 @@
     .article-container {
         max-width: 800px;
         margin: 0 auto;
-        padding: 2rem 1rem;
     }
 
     .article-header {
