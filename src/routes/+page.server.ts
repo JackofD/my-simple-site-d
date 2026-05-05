@@ -1,9 +1,9 @@
 import type { PageServerLoad } from './$types';
-import { getAllArticles, type Article } from '$lib/articles';
+import { getLatestArticles, type Article } from '$lib/articles';
 
 export const load = (async () => {
 	try {
-		return { articles: getAllArticles() };
+		return { articles: getLatestArticles(3) };
 	} catch {
 		return { articles: [] as Article[] };
 	}

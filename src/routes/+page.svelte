@@ -1,3 +1,9 @@
+<script lang="ts">
+	import type { PageData } from './$types';
+	import ArticleArchive from '$lib/components/ArticleArchive.svelte';
+	export let data: PageData;
+</script>
+
 <section class="hero">
 	<h1 class="hero__title">
 		Welcome to <span class="hero__title--accent">SvelteKit</span>
@@ -6,6 +12,8 @@
 		Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation
 	</p>
 </section>
+
+<ArticleArchive articles={data.articles} />
 
 <style>
 	.hero {

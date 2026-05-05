@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
+	import ArticleCard from '$lib/components/ArticleCard.svelte';
 	export let data: PageData;
 </script>
 
@@ -16,21 +17,8 @@
 			</div>
 		{:else if data.articles.length}
 			<div class="articles-list">
-				{#each data.articles as article}
-					<article class="article-preview">
-						<h2>
-							<a href="/articles/{article.slug}">{article.title}</a>
-						</h2>
-						{#if article.date}
-							<time datetime={article.date}>
-								{new Date(article.date).toLocaleDateString()}
-							</time>
-						{/if}
-						{#if article.description}
-							<p class="description">{article.description}</p>
-						{/if}
-						<a class="read-more" href="/articles/{article.slug}">Read more →</a>
-					</article>
+				{#each data.articles as article (article.slug)}
+					<ArticleCard {article} />
 				{/each}
 			</div>
 		{:else}
@@ -63,67 +51,6 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
 		gap: var(--space-lg);
-	}
-
-	.article-preview {
-		background: var(--color-surface);
-		border: var(--border-width) solid var(--color-border);
-		border-radius: var(--radius-lg);
-		padding: var(--space-xl);
-		box-shadow: var(--shadow-sm);
-		transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-sm);
-	}
-
-	.article-preview:hover {
-		transform: translateY(-2px);
-		box-shadow: var(--shadow-md);
-		border-color: var(--color-accent-soft);
-	}
-
-	.article-preview h2 {
-		font-size: var(--font-size-xl);
-		margin: 0;
-		line-height: var(--line-height-snug);
-	}
-
-	.article-preview h2 a {
-		color: var(--color-text);
-		text-decoration: none;
-	}
-
-	.article-preview h2 a:hover {
-		color: var(--color-accent);
-	}
-
-	.article-preview time {
-		display: inline-block;
-		color: var(--color-text-subtle);
-		font-size: var(--font-size-sm);
-		font-weight: var(--font-weight-medium);
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
-	}
-
-	.description {
-		color: var(--color-text-muted);
-		line-height: var(--line-height-normal);
-		margin: 0;
-	}
-
-	.read-more {
-		margin-top: auto;
-		padding-top: var(--space-sm);
-		font-size: var(--font-size-sm);
-		font-weight: var(--font-weight-semibold);
-		color: var(--color-accent);
-		letter-spacing: 0.02em;
-	}
-
-	.read-more:hover {
-		color: var(--color-accent-hover);
 	}
 
 	.empty {
