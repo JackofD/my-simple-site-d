@@ -17,7 +17,7 @@
 	<header class="site-header">
 		<div class="site-header__inner">
 			<a class="brand" href="/" aria-label="Home">
-				<span class="brand__mark" aria-hidden="true">✦</span>
+				<span style="font-style: italic;">Ars</span><span class="brand__mark" aria-hidden="true">✦</span><span style="font-style: italic;">Illus</span>
 			</a>
 			<nav class="primary-nav" aria-label="Primary">
 				<a href="/">Home</a>
@@ -78,6 +78,8 @@
 	.brand__mark {
 		font-size: 1.1em;
 		line-height: 1;
+		transform: rotate(45deg);
+		display: inline-block;
 	}
 
 	.primary-nav {

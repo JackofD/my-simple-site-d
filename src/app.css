@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* ============================================================
    THEME TOKENS
    Edit these CSS custom properties to retheme the entire site.
@@ -79,6 +81,56 @@
 	--container-max: 72rem;
 	--content-max: 44rem;
 	--header-height: 4rem;
+}
+
+@theme inline {
+	--color-canvas: var(--color-bg);
+	--color-canvas-alt: var(--color-bg-alt);
+	--color-panel: var(--color-surface);
+	--color-panel-soft: var(--color-surface-soft);
+	--color-ink: var(--color-text);
+	--color-ink-muted: var(--color-text-muted);
+	--color-ink-subtle: var(--color-text-subtle);
+	--color-brand: var(--color-accent);
+	--color-brand-hover: var(--color-accent-hover);
+	--color-brand-soft: var(--color-accent-soft);
+	--color-brand-strong: var(--color-accent-strong);
+	--color-rule: var(--color-border);
+	--color-rule-soft: var(--color-border-soft);
+
+	--font-copy: var(--font-body);
+	--font-display: var(--font-heading);
+	--font-code: var(--font-mono);
+
+	--text-copy: var(--font-size-md);
+	--text-copy--line-height: var(--line-height-normal);
+	--text-lede: var(--font-size-lg);
+	--text-lede--line-height: var(--line-height-relaxed);
+	--text-display: var(--font-size-4xl);
+	--text-display--line-height: var(--line-height-tight);
+
+	--leading-copy: var(--line-height-normal);
+	--leading-reading: var(--line-height-relaxed);
+	--tracking-brand: 0.04em;
+
+	--radius-soft: var(--radius-md);
+	--radius-card: var(--radius-lg);
+	--radius-panel: var(--radius-xl);
+	--radius-pill: var(--radius-pill);
+
+	--shadow-card: var(--shadow-sm);
+	--shadow-panel: var(--shadow-md);
+	--shadow-lift: var(--shadow-lg);
+
+	--container-page: var(--container-max);
+	--container-copy: var(--content-max);
+
+	--spacing-gutter: var(--space-xl);
+	--spacing-section: var(--space-3xl);
+	--spacing-header: var(--header-height);
+
+	--breakpoint-xs: 37.5rem;
+	--breakpoint-tablet: 56.25rem;
 }
 
 /* ============================================================

@@ -6,10 +6,18 @@
 
 <section class="hero">
 	<h1 class="hero__title">
-		Welcome to <span class="hero__title--accent">SvelteKit</span>
+		Welcome to 
+		<div>
+			<span class="hero__title--accent">Ars</span>
+			<span class="hero__title--accent" style="font-style: normal;"> X </span>
+			<span class="hero__title--accent">Illus</span>
+		</div>
 	</h1>
 	<p class="hero__lede">
-		Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation
+		Welcome to my journey of Progress 
+	</p>
+	<p class="hero__lede extra">
+		<span>Ars:</span> Art, skill, craft. The pursuit of mastery and creativity in all things. 
 	</p>
 </section>
 
@@ -31,7 +39,7 @@
 	}
 
 	.hero__title--accent {
-		display: block;
+		display: inline-block;
 		color: var(--color-accent);
 		font-style: italic;
 	}
@@ -41,14 +49,9 @@
 		color: var(--color-text-muted);
 		line-height: var(--line-height-relaxed);
 	}
-
-	.hero__lede a {
-		font-weight: var(--font-weight-semibold);
-		border-bottom: var(--border-width) solid var(--color-accent-soft);
-	}
-
-	.hero__lede a:hover {
-		border-bottom-color: var(--color-accent);
+	.hero__lede.extra {
+		color: var(--color-accent);
+		font-size: smaller;
 	}
 
 	@media (max-width: 600px) {
