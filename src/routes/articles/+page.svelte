@@ -1,88 +1,153 @@
 <script lang="ts">
-    import type { PageData } from './$types';
-    export let data: PageData;
+	import type { PageData } from './$types';
+	export let data: PageData;
 </script>
 
-<h1>Articles</h1>
+<section class="articles">
+	<header class="articles__header">
+		<h1>Articles</h1>
+	</header>
 
-<div class="articles-container">
-    {#if !data.articles || !Array.isArray(data.articles)}
-        <div class="error">
-            <h2>Sorry, we couldn't load the articles.</h2>
-            <p>Please try again later. If the problem persists, contact the site administrator.</p>
-        </div>
-    {:else if data.articles.length}
-        <div class="articles-list">
-            {#each data.articles as article}
-                <article class="article-preview">
-                    <h2>
-                        <a href="/articles/{article.slug}">{article.title}</a>
-                    </h2>
-                    {#if article.date}
-                        <time datetime={article.date}>
-                            {new Date(article.date).toLocaleDateString()}
-                        </time>
-                    {/if}
-                    {#if article.description}
-                        <p class="description">{article.description}</p>
-                    {/if}
-                </article>
-            {/each}
-        </div>
-    {:else}
-        <p>No articles found.</p>
-    {/if}
-</div>
+	<div class="articles-container">
+		{#if !data.articles || !Array.isArray(data.articles)}
+			<div class="error">
+				<h2>Sorry, we couldn't load the articles.</h2>
+				<p>Please try again later. If the problem persists, contact the site administrator.</p>
+			</div>
+		{:else if data.articles.length}
+			<div class="articles-list">
+				{#each data.articles as article}
+					<article class="article-preview">
+						<h2>
+							<a href="/articles/{article.slug}">{article.title}</a>
+						</h2>
+						{#if article.date}
+							<time datetime={article.date}>
+								{new Date(article.date).toLocaleDateString()}
+							</time>
+						{/if}
+						{#if article.description}
+							<p class="description">{article.description}</p>
+						{/if}
+						<a class="read-more" href="/articles/{article.slug}">Read more →</a>
+					</article>
+				{/each}
+			</div>
+		{:else}
+			<p class="empty">No articles found.</p>
+		{/if}
+	</div>
+</section>
 
 <style>
-    .articles-container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 1rem;
-    }
+	.articles {
+		max-width: var(--container-max);
+		margin: 0 auto;
+	}
 
-    .article-preview {
-        margin-bottom: 2rem;
-        padding-bottom: 2rem;
-        border-bottom: 1px solid #eee;
-    }
+	.articles__header {
+		text-align: center;
+		margin-bottom: var(--space-2xl);
+	}
 
-    .article-preview:last-child {
-        border-bottom: none;
-    }
+	.articles__header h1 {
+		font-size: var(--font-size-3xl);
+	}
 
-    .article-preview h2 {
-        margin: 0;
-    }
+	.articles-container {
+		max-width: var(--container-max);
+		margin: 0 auto;
+	}
 
-    .article-preview a {
-        color: inherit;
-        text-decoration: none;
-    }
+	.articles-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+		gap: var(--space-lg);
+	}
 
-    .article-preview a:hover {
-        text-decoration: underline;
-    }
+	.article-preview {
+		background: var(--color-surface);
+		border: var(--border-width) solid var(--color-border);
+		border-radius: var(--radius-lg);
+		padding: var(--space-xl);
+		box-shadow: var(--shadow-sm);
+		transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-sm);
+	}
 
-    .article-preview time {
-        display: block;
-        color: #666;
-        margin: 0.5rem 0;
-        font-size: 0.9rem;
-    }
+	.article-preview:hover {
+		transform: translateY(-2px);
+		box-shadow: var(--shadow-md);
+		border-color: var(--color-accent-soft);
+	}
 
-    .description {
-        margin: 0.5rem 0 0;
-        color: #444;
-        line-height: 1.4;
-    }
+	.article-preview h2 {
+		font-size: var(--font-size-xl);
+		margin: 0;
+		line-height: var(--line-height-snug);
+	}
 
+	.article-preview h2 a {
+		color: var(--color-text);
+		text-decoration: none;
+	}
 
-    .error {
-        background: #fff0f0;
-        padding: 1rem;
-        border-radius: 4px;
-        margin: 1rem 0;
-    }
+	.article-preview h2 a:hover {
+		color: var(--color-accent);
+	}
 
+	.article-preview time {
+		display: inline-block;
+		color: var(--color-text-subtle);
+		font-size: var(--font-size-sm);
+		font-weight: var(--font-weight-medium);
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+
+	.description {
+		color: var(--color-text-muted);
+		line-height: var(--line-height-normal);
+		margin: 0;
+	}
+
+	.read-more {
+		margin-top: auto;
+		padding-top: var(--space-sm);
+		font-size: var(--font-size-sm);
+		font-weight: var(--font-weight-semibold);
+		color: var(--color-accent);
+		letter-spacing: 0.02em;
+	}
+
+	.read-more:hover {
+		color: var(--color-accent-hover);
+	}
+
+	.empty {
+		text-align: center;
+		color: var(--color-text-muted);
+		padding: var(--space-2xl) 0;
+	}
+
+	.error {
+		background: var(--color-surface);
+		border: var(--border-width) solid var(--color-border);
+		border-left: var(--border-width-thick) solid var(--color-accent-strong);
+		padding: var(--space-lg);
+		border-radius: var(--radius-md);
+	}
+
+	.error h2 {
+		font-size: var(--font-size-lg);
+		margin-bottom: var(--space-xs);
+	}
+
+	@media (max-width: 600px) {
+		.articles-list {
+			grid-template-columns: 1fr;
+		}
+	}
 </style>
