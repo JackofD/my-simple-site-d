@@ -9,7 +9,7 @@
 		Welcome to 
 		<div>
 			<span class="hero__title--accent">Ars</span>
-			<span class="hero__title--accent" style="font-style: normal;"> X </span>
+			<span class="hero__title--accent font-normal"> X </span>
 			<span class="hero__title--accent">Illus</span>
 		</div>
 	</h1>
@@ -17,7 +17,7 @@
 		Welcome to my journey of Progress 
 	</p>
 	<p class="hero__lede extra">
-		<span>Ars:</span> Art, skill, craft. The pursuit of mastery and creativity in all things. 
+		<span class="font-bold">Ars:</span> Art, skill, craft. The pursuit of mastery and creativity in all things. 
 	</p>
 </section>
 
